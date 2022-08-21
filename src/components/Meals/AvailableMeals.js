@@ -3,7 +3,7 @@ import useHttp from "../../hooks/use-http";
 import MealItem from "../MealItem/MealItem";
 
 const AvailableMeals = () => {
-  const { error, isLoading, sendRequest: fetchMeals } = useHttp();
+  const { error, isLoading, sendRequest: fetchMeals } = useHttp(); 
   const [mealItemList, setMealItemList] = useState([]);
 
   useEffect(() => {

@@ -5,7 +5,7 @@ const useInput = (validityCheck) => {
   const [enteredInputBlur, setEnteredInputBlur] = useState(false);
 
   const inputChangeHandler = (event) => {
-    setEnteredInput(event.target.value);
+    setEnteredInput(event.target.value); 
   };
 
   const inputBlurHandler = () => {

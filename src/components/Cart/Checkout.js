@@ -40,7 +40,7 @@ const CheckOut = (props) => {
     streetResults.resetInput();
     postalResults.resetInput();
     cityResults.resetInput();
-  };
+  }; 
 
   return (
     <form onSubmit={onSubmitHandler}>

@@ -11,7 +11,7 @@ const App = () => {
     setVisible(true);
   };
 
-  const cartHIdeHandler = () => {
+  const cartHIdeHandler = () => { 
     setVisible(false);
   };
 

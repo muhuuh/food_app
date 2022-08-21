@@ -22,7 +22,7 @@ const Cart = (props) => {
     cartCtx.addItem({ ...item, amount: 1 });
     console.log("clicked");
   };
-
+ 
   const onOrderHandler = () => {
     setOnOrder(true);
   };
