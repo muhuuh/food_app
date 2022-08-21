@@ -1,49 +1,50 @@
+import { useEffect, useState } from "react";
+import useHttp from "../../hooks/use-http";
 import MealItem from "../MealItem/MealItem";
 
-// working with hard coded dummy data. Later we can fetch it from a database
-const DUMMY_MEALS = [
-  {
-    id: "m1",
-    name: "Sushi",
-    description: "Finest fish and veggies",
-    price: 22.99,
-  },
-  {
-    id: "m2",
-    name: "Schnitzel",
-    description: "A german specialty!",
-    price: 16.5,
-  },
-  {
-    id: "m3",
-    name: "Barbecue Burger",
-    description: "American, raw, meaty",
-    price: 12.99,
-  },
-  {
-    id: "m4",
-    name: "Green Bowl",
-    description: "Healthy...and green...",
-    price: 18.99,
-  },
-];
-
 const AvailableMeals = () => {
-  const mealsList = DUMMY_MEALS.map((x) => {
+  const { error, isLoading, sendRequest: fetchMeals } = useHttp();
+  const [mealItemList, setMealItemList] = useState([]);
+
+  useEffect(() => {
+    const transformData = (data) => {
+      let loadedMeals = [];
+      for (const mealKey in data) {
+        loadedMeals.push({
+          id: mealKey,
+          name: data[mealKey].name,
+          description: data[mealKey].description,
+          price: data[mealKey].price,
+        });
+      }
+      setMealItemList(loadedMeals);
+    };
+
+    fetchMeals(
+      {
+        url: "https://react-udemy-movie-e7f18-default-rtdb.europe-west1.firebasedatabase.app/meals.json",
+      },
+      transformData
+    );
+  }, [fetchMeals]);
+
+  const mealsList = mealItemList.map((item) => {
     return (
       <MealItem
-        key={x.id}
-        id={x.id}
-        name={x.name}
-        price={x.price}
-        description={x.description}
+        key={item.id}
+        id={item.id}
+        name={item.name}
+        price={item.price}
+        description={item.description}
       />
     );
   });
 
   return (
-    <ul className="flex flex-col gap-y-6 mx-auto  bg-white border-2 rounded-lg shadow-xl w-2/3 p-8">
-      {mealsList}
+    <ul className="flex flex-col gap-y-6 mx-auto bg-white border-2 rounded-lg shadow-xl w-2/3 p-8">
+      {isLoading && <p>Loading the Menu</p>}
+      {error}
+      {!isLoading && mealsList}
     </ul>
   );
 };
