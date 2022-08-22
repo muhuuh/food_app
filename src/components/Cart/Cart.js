@@ -9,6 +9,7 @@ const Cart = (props) => {
   const cartCtx = useContext(CartContext);
   const [onOrder, setOnOrder] = useState(false);
   const [orders, setOrders] = useState([]);
+  const [submitSuccess, setSubmitSucces] = useState(false);
   const { isLoading, error, sendRequest: postMenu } = UseHttp();
 
   const totalAmount = `${cartCtx.totalAmount.toFixed(2)} €`;
@@ -22,7 +23,7 @@ const Cart = (props) => {
     cartCtx.addItem({ ...item, amount: 1 });
     console.log("clicked");
   };
- 
+
   const onOrderHandler = () => {
     setOnOrder(true);
   };
@@ -43,13 +44,20 @@ const Cart = (props) => {
         city: checkOutInfo.city,
         totalAmount: cartCtx.totalAmount,
         items: cartCtx.items,
-        
       },
     };
 
     const transformDataPost = (data) => {
       const generatedId = data.name; // firebase-specific => "name" contains generated id
-      const createdOrder = { id: generatedId, login: checkOutInfo.login };
+      const createdOrder = {
+        id: generatedId,
+        login: checkOutInfo.login,
+        street: checkOutInfo.street,
+        postal: checkOutInfo.postal,
+        city: checkOutInfo.city,
+        totalAmount: cartCtx.totalAmount,
+        items: cartCtx.items,
+      };
 
       let totalOrders = orders;
       totalOrders.push(createdOrder);
@@ -57,6 +65,7 @@ const Cart = (props) => {
     };
 
     postMenu(postConfig, transformDataPost);
+    setSubmitSucces(true);
   };
 
   const cartItems = (
@@ -113,6 +122,7 @@ const Cart = (props) => {
             />
           )}
           {!onOrder && orderButton}
+          {submitSuccess && <p className="text-center font-bold italic">Order successful</p>}
         </div>
       </div>
     </Modal>

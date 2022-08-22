@@ -12,7 +12,7 @@ const App = () => {
   };
 
   const cartHIdeHandler = () => { 
-    setVisible(false);
+    setVisible(false); 
   };
 
   return (

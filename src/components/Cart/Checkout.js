@@ -4,9 +4,12 @@ const CheckOut = (props) => {
   const checkText = (input) => {
     return input.trim() !== "";
   };
+  const checkPostal = (input) => {
+    return input.trim().length === 5;
+  };
   const loginResults = useInput(checkText);
   const streetResults = useInput(checkText);
-  const postalResults = useInput(checkText);
+  const postalResults = useInput(checkPostal);
   const cityResults = useInput(checkText);
 
   let formIsValid = false;
@@ -56,7 +59,7 @@ const CheckOut = (props) => {
               onChange={loginResults.inputChangeHandler}
               onBlur={loginResults.inputBlurHandler}
               value={loginResults.enteredInput}
-              className="border-2 rounded-lg w-40"
+              className={`border-2 rounded-lg w-40 ${loginResults.hasError ? "border-red-500" : ""}`}
             />
           </div>
           <div className="flex flex-row justify-between">
@@ -69,7 +72,7 @@ const CheckOut = (props) => {
               onChange={streetResults.inputChangeHandler}
               onBlur={streetResults.inputBlurHandler}
               value={streetResults.enteredInput}
-              className="border-2 rounded-lg w-40"
+              className={`border-2 rounded-lg w-40 ${streetResults.hasError ? "border-red-500" : ""}`}
             />
           </div>
         </div>
@@ -84,7 +87,7 @@ const CheckOut = (props) => {
               onChange={postalResults.inputChangeHandler}
               onBlur={postalResults.inputBlurHandler}
               value={postalResults.enteredInput}
-              className="border-2 rounded-lg w-40"
+              className={`border-2 rounded-lg w-40 ${postalResults.hasError ? "border-red-500" : ""}`}
             />
           </div>
           <div className="flex flex-row justify-between">
@@ -97,14 +100,14 @@ const CheckOut = (props) => {
               onChange={cityResults.inputChangeHandler}
               onBlur={cityResults.inputBlurHandler}
               value={cityResults.enteredInput}
-              className="border-2 rounded-lg w-40"
+              className={`border-2 rounded-lg w-40 ${cityResults.hasError ? "border-red-500" : ""}`}
             />
           </div>
         </div>
       </div>
       <div className="flex justify-end">
         <button
-          type="submit"
+          type="button"
           className="border-2 border-brownRed text-brownRed rounded-full px-4 mr-6"
           onClick={props.onCloseCheckOut}
         >
@@ -112,7 +115,7 @@ const CheckOut = (props) => {
         </button>
         <button
           type="submit"
-          className="bg-brownRed text-white rounded-full px-4"
+          className={`text-white rounded-full px-4 ${!formIsValid ? "bg-gray-500" : "bg-brownRed"}`}
           disabled={!formIsValid}
         >
           Confirm
